@@ -55,6 +55,75 @@ public class ProtectionServiceHandlerTest {
     }
 
     @Test
+    public void processUserWithPublic_DataHasNoLevels_FieldHasNoLevels() throws Exception{
+        userContainer.setCompartments(EnumSet.of(Compartment.ALPHA, Compartment.BRAVO));
+        userContainer.setLevels(EnumSet.of(Level.PUBLIC));
+        userContainer.setGroups(EnumSet.of(Group.HR));
+        user.setPermissions(userContainer);
+        dataContainer.setCompartments(EnumSet.allOf(Compartment.class));
+        dataContainer.setLevels(EnumSet.noneOf(Level.class));
+        dataContainer.setGroups(EnumSet.allOf(Group.class));
+        SecurityContainer fieldContainer = new SecurityContainer();
+        fieldContainer.setCompartments(EnumSet.allOf(Compartment.class));
+        fieldContainer.setLevels(EnumSet.noneOf(Level.class));
+        fieldContainer.setGroups(EnumSet.allOf(Group.class));
+        alphaField.setMarkings(fieldContainer);
+        fields.put(alphaKey, alphaField);
+        document.setFields(fields);
+        document.setOverallMarkings(dataContainer);
+        List<ProtectedDocument> documents = new LinkedList<>();
+        documents.add(document);
+        assertEquals(1, handler.authorize(user,documents).size());
+        assertEquals("some value",documents.get(0).getFields().get(alphaKey).getValue());
+    }
+
+    @Test
+    public void processUserWithPublic_DataHasNoLevels_FieldHasPublic() throws Exception{
+        userContainer.setCompartments(EnumSet.of(Compartment.ALPHA, Compartment.BRAVO));
+        userContainer.setLevels(EnumSet.of(Level.PUBLIC));
+        userContainer.setGroups(EnumSet.of(Group.HR));
+        user.setPermissions(userContainer);
+        dataContainer.setCompartments(EnumSet.allOf(Compartment.class));
+        dataContainer.setLevels(EnumSet.noneOf(Level.class));
+        dataContainer.setGroups(EnumSet.allOf(Group.class));
+        SecurityContainer fieldContainer = new SecurityContainer();
+        fieldContainer.setCompartments(EnumSet.allOf(Compartment.class));
+        fieldContainer.setLevels(EnumSet.of(Level.PUBLIC));
+        fieldContainer.setGroups(EnumSet.allOf(Group.class));
+        alphaField.setMarkings(fieldContainer);
+        fields.put(alphaKey, alphaField);
+        document.setFields(fields);
+        document.setOverallMarkings(dataContainer);
+        List<ProtectedDocument> documents = new LinkedList<>();
+        documents.add(document);
+        assertEquals(1, handler.authorize(user,documents).size());
+        assertEquals("some value",documents.get(0).getFields().get(alphaKey).getValue());
+    }
+
+    @Test
+    public void processUserWithPublic_DataHasNoLevels_FieldHasSensitive() throws Exception{
+        userContainer.setCompartments(EnumSet.of(Compartment.ALPHA, Compartment.BRAVO));
+        userContainer.setLevels(EnumSet.of(Level.PUBLIC));
+        userContainer.setGroups(EnumSet.of(Group.HR));
+        user.setPermissions(userContainer);
+        dataContainer.setCompartments(EnumSet.allOf(Compartment.class));
+        dataContainer.setLevels(EnumSet.noneOf(Level.class));
+        dataContainer.setGroups(EnumSet.allOf(Group.class));
+        SecurityContainer fieldContainer = new SecurityContainer();
+        fieldContainer.setCompartments(EnumSet.allOf(Compartment.class));
+        fieldContainer.setLevels(EnumSet.of(Level.SENSITIVE));
+        fieldContainer.setGroups(EnumSet.allOf(Group.class));
+        alphaField.setMarkings(fieldContainer);
+        fields.put(alphaKey, alphaField);
+        document.setFields(fields);
+        document.setOverallMarkings(dataContainer);
+        List<ProtectedDocument> documents = new LinkedList<>();
+        documents.add(document);
+        assertEquals(1, handler.authorize(user,documents).size());
+        assertNull(documents.get(0).getFields().get(alphaKey).getValue());
+    }
+
+    @Test
     public void processUserWithSensitiveAndPublic_DataHasNoLevels() throws Exception{
         userContainer.setCompartments(EnumSet.of(Compartment.ALPHA, Compartment.BRAVO));
         userContainer.setLevels(EnumSet.of(Level.SENSITIVE,Level.PUBLIC));

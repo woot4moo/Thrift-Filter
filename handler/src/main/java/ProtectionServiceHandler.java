@@ -30,12 +30,13 @@ public class ProtectionServiceHandler implements ProtectionService.Iface{
             ProtectedDocument document = documentIterator.next();
             EnumSet<Level> documentLevels = EnumSet.copyOf(document.getOverallMarkings().getLevels());
             documentLevels.removeAll(levels);
-            if(!documentLevels.isEmpty() && !documentLevels.isEmpty()){
+            if(!documentLevels.isEmpty()){
+                System.out.println("Document levels:" + documentLevels);
                 documentIterator.remove();
                 System.out.println("Document has been nulled");
                 continue;
             }
-            EnumSet<Group> documentGroups = EnumSet.copyOf(document.getOverallMarkings().getGroups());
+          /*  EnumSet<Group> documentGroups = EnumSet.copyOf(document.getOverallMarkings().getGroups());
             documentGroups.retainAll(groups);
             if(documentGroups.isEmpty()){
                 System.out.println("Group removal: " + groups + "vs document " + documentGroups);
@@ -49,6 +50,14 @@ public class ProtectionServiceHandler implements ProtectionService.Iface{
                 System.out.println("Document has been nulled");
                 System.out.println(documentCompartments.complementOf(compartments));
                 continue;
+            }*/
+            for(ProtectedKey key : document.getFields().keySet()){
+                EnumSet<Level> fieldLevels = EnumSet.copyOf(document.getFields().get(key).getMarkings().getLevels());
+                fieldLevels.removeAll(levels);
+                if(!fieldLevels.isEmpty()){
+                    document.getFields().get(key).setValue(null);
+                    System.out.println("Field has been nulled");
+                }
             }
         }
         return documents;
