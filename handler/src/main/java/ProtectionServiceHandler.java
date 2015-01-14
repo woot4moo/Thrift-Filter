@@ -9,6 +9,7 @@ import security.ProtectedKey;
 import security.ProtectionService;
 import security.User;
 
+import java.util.ArrayDeque;
 import java.util.EnumSet;
 import java.util.Iterator;
 import java.util.LinkedList;
@@ -20,8 +21,24 @@ public class ProtectionServiceHandler implements ProtectionService.Iface{
         return new LinkedList<>(process(user,fields));
     }
 
+    /**
+     * Processes the supplied documents and appropriately nulls out values that the supplied user
+     * should not have access to.
+     *
+     * @param user - The user that is requesting access
+     * @param documents - The data that is to be accessed and filtered
+     *
+     * @return The remaining documents that can be seen
+     *
+     * @see security.User
+     * @see security.ProtectedDocument
+     */
     @VisibleForTesting
     protected List<ProtectedDocument> process(User user, List<ProtectedDocument> documents){
+        if(null == documents || null == user || documents.isEmpty()){
+            return new LinkedList<>();
+        }
+
         EnumSet<Level> levels = EnumSet.copyOf(user.getPermissions().getLevels());
         EnumSet<Group> groups = EnumSet.copyOf(user.getPermissions().getGroups());
         EnumSet<Compartment> compartments = EnumSet.copyOf(user.getPermissions().getCompartments());
