@@ -7,6 +7,7 @@ import security.ProtectedDocument;
 import security.ProtectedField;
 import security.ProtectedKey;
 import security.ProtectionService;
+import security.SecurityContainer;
 import security.User;
 
 import java.util.ArrayDeque;
@@ -38,58 +39,43 @@ public class ProtectionServiceHandler implements ProtectionService.Iface{
         if(null == documents || null == user || documents.isEmpty()){
             return new LinkedList<>();
         }
-
-        EnumSet<Level> levels = EnumSet.copyOf(user.getPermissions().getLevels());
-        EnumSet<Group> groups = EnumSet.copyOf(user.getPermissions().getGroups());
-        EnumSet<Compartment> compartments = EnumSet.copyOf(user.getPermissions().getCompartments());
-
         Iterator<ProtectedDocument> documentIterator = documents.iterator();
         while(documentIterator.hasNext()){
             ProtectedDocument document = documentIterator.next();
-            EnumSet<Level> documentLevels = EnumSet.copyOf(document.getOverallMarkings().getLevels());
-            documentLevels.removeAll(levels);
-            if(!documentLevels.isEmpty()){
-                documentIterator.remove();
-                continue;
-            }
-
-            EnumSet<Group> documentGroups = EnumSet.copyOf(document.getOverallMarkings().getGroups());
-            documentGroups.retainAll(groups);
-            if(documentGroups.isEmpty() && !document.getOverallMarkings().getGroups().isEmpty()){
-                documentIterator.remove();
-                continue;
-            }
-
-            EnumSet<Compartment> documentCompartments = EnumSet.copyOf(document.getOverallMarkings().getCompartments());
-            documentCompartments.removeAll(compartments);
-            if(!documentCompartments.isEmpty()){
+            if(shouldRemove(document.getOverallMarkings(),user)){
                 documentIterator.remove();
                 continue;
             }
             for(ProtectedKey key : document.getFields().keySet()){
                 ProtectedField field = document.getFields().get(key);
-                EnumSet<Level> fieldLevels = EnumSet.copyOf(field.getMarkings().getLevels());
-                fieldLevels.removeAll(levels);
-                if(!fieldLevels.isEmpty()){
+                if(shouldRemove(field.getMarkings(),user)){
                     document.getFields().get(key).setValue(null);
-                    continue;
-                }
-
-                EnumSet<Group> fieldGroups = EnumSet.copyOf(field.getMarkings().getGroups());
-                fieldGroups.retainAll(groups);
-                if(fieldGroups.isEmpty() && !field.getMarkings().getGroups().isEmpty()){
-                   field.setValue(null);
-                    continue;
-                }
-
-                EnumSet<Compartment> fieldCompartments = EnumSet.copyOf(field.getMarkings().getCompartments());
-                fieldCompartments.retainAll(compartments);
-                if(fieldCompartments.isEmpty() && !field.getMarkings().getCompartments().isEmpty()){
-                    field.setValue(null);
                     continue;
                 }
             }
         }
         return documents;
+    }
+
+    /**
+     * Determines if the record should be removed based on supplied parameters.
+     * @param container - The data's permission set
+     * @param user - The user's accesses
+     * @return  True in the event that an audit has failed, False otherwise
+     */
+    private boolean shouldRemove(SecurityContainer container, User user){
+        EnumSet<Level> levels = EnumSet.copyOf(container.getLevels());
+        levels.removeAll(user.getPermissions().getLevels());
+
+        EnumSet<Group> groups = EnumSet.copyOf(container.getGroups());
+        groups.retainAll(user.getPermissions().getGroups());
+
+        EnumSet<Compartment> compartments = EnumSet.copyOf(container.getCompartments());
+        compartments.removeAll(user.getPermissions().getCompartments());
+
+        return (   ( !levels.isEmpty())
+                 ||( groups.isEmpty() && !container.getGroups().isEmpty())
+                 ||( !compartments.isEmpty())
+               );
     }
 }
