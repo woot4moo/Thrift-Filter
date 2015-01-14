@@ -32,38 +32,44 @@ public class ProtectionServiceHandler implements ProtectionService.Iface{
             EnumSet<Level> documentLevels = EnumSet.copyOf(document.getOverallMarkings().getLevels());
             documentLevels.removeAll(levels);
             if(!documentLevels.isEmpty()){
-                System.out.println("Document levels:" + documentLevels);
                 documentIterator.remove();
-                System.out.println("Document has been nulled");
                 continue;
             }
+
             EnumSet<Group> documentGroups = EnumSet.copyOf(document.getOverallMarkings().getGroups());
             documentGroups.retainAll(groups);
             if(documentGroups.isEmpty() && !document.getOverallMarkings().getGroups().isEmpty()){
                 documentIterator.remove();
                 continue;
             }
-            /*
+
             EnumSet<Compartment> documentCompartments = EnumSet.copyOf(document.getOverallMarkings().getCompartments());
-            if(!documentCompartments.complementOf(compartments).isEmpty()){
+            documentCompartments.removeAll(compartments);
+            if(!documentCompartments.isEmpty()){
                 documentIterator.remove();
-                System.out.println("Document has been nulled");
-                System.out.println(documentCompartments.complementOf(compartments));
                 continue;
-            }*/
+            }
             for(ProtectedKey key : document.getFields().keySet()){
                 ProtectedField field = document.getFields().get(key);
                 EnumSet<Level> fieldLevels = EnumSet.copyOf(field.getMarkings().getLevels());
                 fieldLevels.removeAll(levels);
                 if(!fieldLevels.isEmpty()){
                     document.getFields().get(key).setValue(null);
-                    System.out.println("Field has been nulled");
+                    continue;
                 }
 
                 EnumSet<Group> fieldGroups = EnumSet.copyOf(field.getMarkings().getGroups());
                 fieldGroups.retainAll(groups);
                 if(fieldGroups.isEmpty() && !field.getMarkings().getGroups().isEmpty()){
                    field.setValue(null);
+                    continue;
+                }
+
+                EnumSet<Compartment> fieldCompartments = EnumSet.copyOf(field.getMarkings().getCompartments());
+                fieldCompartments.retainAll(compartments);
+                if(fieldCompartments.isEmpty() && !field.getMarkings().getCompartments().isEmpty()){
+                    field.setValue(null);
+                    continue;
                 }
             }
         }

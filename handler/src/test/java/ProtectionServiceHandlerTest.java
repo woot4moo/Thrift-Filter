@@ -49,8 +49,8 @@ public class ProtectionServiceHandlerTest {
         betaField = new ProtectedField();
         betaField.setValue("100000");
 
-        dataContainer= new SecurityContainer();
-        userContainer =  new SecurityContainer();
+        dataContainer = new SecurityContainer();
+        userContainer = new SecurityContainer();
         user = new User();
         user.setUsername("test");
 
@@ -63,8 +63,8 @@ public class ProtectionServiceHandlerTest {
     }
 
     @Test
-    public void processUserWithPublic_DataHasNoLevels_MultipleFieldsHaveDifferingLevels() throws Exception{
-                userContainer.setCompartments(EnumSet.allOf(Compartment.class)); 
+    public void processUserWithPublic_DataHasNoLevels_MultipleFieldsHaveDifferingLevels() throws Exception {
+        userContainer.setCompartments(EnumSet.allOf(Compartment.class));
         userContainer.setLevels(EnumSet.of(Level.PUBLIC));
         userContainer.setGroups(EnumSet.of(Group.HR));
         user.setPermissions(userContainer);
@@ -90,15 +90,15 @@ public class ProtectionServiceHandlerTest {
         document.setOverallMarkings(dataContainer);
         List<ProtectedDocument> documents = new LinkedList<>();
         documents.add(document);
-        assertEquals(1, handler.authorize(user,documents).size());
-        assertEquals("some value",documents.get(0).getFields().get(alphaKey).getValue());
+        assertEquals(1, handler.authorize(user, documents).size());
+        assertEquals("some value", documents.get(0).getFields().get(alphaKey).getValue());
         assertNull(documents.get(0).getFields().get(betaKey).getValue());
 
     }
 
     @Test
-    public void processUserWithPublic_DataHasNoLevels_FieldHasNoLevels() throws Exception{
-                userContainer.setCompartments(EnumSet.allOf(Compartment.class)); 
+    public void processUserWithPublic_DataHasNoLevels_FieldHasNoLevels() throws Exception {
+        userContainer.setCompartments(EnumSet.allOf(Compartment.class));
         userContainer.setLevels(EnumSet.of(Level.PUBLIC));
         userContainer.setGroups(EnumSet.of(Group.HR));
         user.setPermissions(userContainer);
@@ -115,13 +115,13 @@ public class ProtectionServiceHandlerTest {
         document.setOverallMarkings(dataContainer);
         List<ProtectedDocument> documents = new LinkedList<>();
         documents.add(document);
-        assertEquals(1, handler.authorize(user,documents).size());
-        assertEquals("some value",documents.get(0).getFields().get(alphaKey).getValue());
+        assertEquals(1, handler.authorize(user, documents).size());
+        assertEquals("some value", documents.get(0).getFields().get(alphaKey).getValue());
     }
 
     @Test
-    public void processUserWithPublic_DataHasNoLevels_FieldHasPublic() throws Exception{
-                userContainer.setCompartments(EnumSet.allOf(Compartment.class)); 
+    public void processUserWithPublic_DataHasNoLevels_FieldHasPublic() throws Exception {
+        userContainer.setCompartments(EnumSet.allOf(Compartment.class));
         userContainer.setLevels(EnumSet.of(Level.PUBLIC));
         userContainer.setGroups(EnumSet.of(Group.HR));
         user.setPermissions(userContainer);
@@ -138,13 +138,13 @@ public class ProtectionServiceHandlerTest {
         document.setOverallMarkings(dataContainer);
         List<ProtectedDocument> documents = new LinkedList<>();
         documents.add(document);
-        assertEquals(1, handler.authorize(user,documents).size());
-        assertEquals("some value",documents.get(0).getFields().get(alphaKey).getValue());
+        assertEquals(1, handler.authorize(user, documents).size());
+        assertEquals("some value", documents.get(0).getFields().get(alphaKey).getValue());
     }
 
     @Test
-    public void processUserWithPublic_DataHasNoLevels_FieldHasSensitive() throws Exception{
-                userContainer.setCompartments(EnumSet.allOf(Compartment.class)); 
+    public void processUserWithPublic_DataHasNoLevels_FieldHasSensitive() throws Exception {
+        userContainer.setCompartments(EnumSet.allOf(Compartment.class));
         userContainer.setLevels(EnumSet.of(Level.PUBLIC));
         userContainer.setGroups(EnumSet.of(Group.HR));
         user.setPermissions(userContainer);
@@ -161,49 +161,49 @@ public class ProtectionServiceHandlerTest {
         document.setOverallMarkings(dataContainer);
         List<ProtectedDocument> documents = new LinkedList<>();
         documents.add(document);
-        assertEquals(1, handler.authorize(user,documents).size());
+        assertEquals(1, handler.authorize(user, documents).size());
         assertNull(documents.get(0).getFields().get(alphaKey).getValue());
     }
 
     @Test
-    public void processUserWithSensitiveAndPublic_DataHasNoLevels() throws Exception{
-                userContainer.setCompartments(EnumSet.allOf(Compartment.class)); 
-        userContainer.setLevels(EnumSet.of(Level.SENSITIVE,Level.PUBLIC));
+    public void processUserWithSensitiveAndPublic_DataHasNoLevels() throws Exception {
+        userContainer.setCompartments(EnumSet.allOf(Compartment.class));
+        userContainer.setLevels(EnumSet.of(Level.SENSITIVE, Level.PUBLIC));
         userContainer.setGroups(EnumSet.of(Group.HR));
         user.setPermissions(userContainer);
         dataContainer.setCompartments(EnumSet.allOf(Compartment.class));
         dataContainer.setLevels(EnumSet.noneOf(Level.class));
         dataContainer.setGroups(EnumSet.allOf(Group.class));
         alphaField.setMarkings(dataContainer);
-        fields.put(alphaKey,alphaField);
+        fields.put(alphaKey, alphaField);
         document.setFields(fields);
         document.setOverallMarkings(dataContainer);
         List<ProtectedDocument> documents = new LinkedList<>();
         documents.add(document);
-        assertEquals(1, handler.authorize(user,documents).size());
+        assertEquals(1, handler.authorize(user, documents).size());
     }
 
     @Test
-    public void processUserWithSensitiveAndPublic_DataHasPublic() throws Exception{
-                userContainer.setCompartments(EnumSet.allOf(Compartment.class)); 
-        userContainer.setLevels(EnumSet.of(Level.SENSITIVE,Level.PUBLIC));
+    public void processUserWithSensitiveAndPublic_DataHasPublic() throws Exception {
+        userContainer.setCompartments(EnumSet.allOf(Compartment.class));
+        userContainer.setLevels(EnumSet.of(Level.SENSITIVE, Level.PUBLIC));
         userContainer.setGroups(EnumSet.of(Group.HR));
         user.setPermissions(userContainer);
         dataContainer.setCompartments(EnumSet.allOf(Compartment.class));
         dataContainer.setLevels(EnumSet.of(Level.PUBLIC));
         dataContainer.setGroups(EnumSet.allOf(Group.class));
         alphaField.setMarkings(dataContainer);
-        fields.put(alphaKey,alphaField);
+        fields.put(alphaKey, alphaField);
         document.setFields(fields);
         document.setOverallMarkings(dataContainer);
         List<ProtectedDocument> documents = new LinkedList<>();
         documents.add(document);
-        assertEquals(1, handler.authorize(user,documents).size());
+        assertEquals(1, handler.authorize(user, documents).size());
     }
 
     @Test
-    public void processUserWithSensitiveAndPublic_DataHasSensitive() throws Exception{
-                userContainer.setCompartments(EnumSet.allOf(Compartment.class)); 
+    public void processUserWithSensitiveAndPublic_DataHasSensitive() throws Exception {
+        userContainer.setCompartments(EnumSet.allOf(Compartment.class));
         userContainer.setLevels(EnumSet.of(Level.SENSITIVE, Level.PUBLIC));
         userContainer.setGroups(EnumSet.of(Group.HR));
         user.setPermissions(userContainer);
@@ -211,17 +211,17 @@ public class ProtectionServiceHandlerTest {
         dataContainer.setLevels(EnumSet.of(Level.SENSITIVE));
         dataContainer.setGroups(EnumSet.allOf(Group.class));
         alphaField.setMarkings(dataContainer);
-        fields.put(alphaKey,alphaField);
+        fields.put(alphaKey, alphaField);
         document.setFields(fields);
         document.setOverallMarkings(dataContainer);
         List<ProtectedDocument> documents = new LinkedList<>();
         documents.add(document);
-        assertEquals(1, handler.authorize(user,documents).size());
+        assertEquals(1, handler.authorize(user, documents).size());
     }
 
     @Test
-    public void processUserWithSensitive_DataHasNoLevels() throws Exception{
-                userContainer.setCompartments(EnumSet.allOf(Compartment.class)); 
+    public void processUserWithSensitive_DataHasNoLevels() throws Exception {
+        userContainer.setCompartments(EnumSet.allOf(Compartment.class));
         userContainer.setLevels(EnumSet.of(Level.SENSITIVE));
         userContainer.setGroups(EnumSet.of(Group.HR));
         user.setPermissions(userContainer);
@@ -229,17 +229,17 @@ public class ProtectionServiceHandlerTest {
         dataContainer.setLevels(EnumSet.noneOf(Level.class));
         dataContainer.setGroups(EnumSet.allOf(Group.class));
         alphaField.setMarkings(dataContainer);
-        fields.put(alphaKey,alphaField);
+        fields.put(alphaKey, alphaField);
         document.setFields(fields);
         document.setOverallMarkings(dataContainer);
         List<ProtectedDocument> documents = new LinkedList<>();
         documents.add(document);
-        assertEquals(1, handler.authorize(user,documents).size());
+        assertEquals(1, handler.authorize(user, documents).size());
     }
 
     @Test
-    public void processUserWithSensitive_DataHasPublic() throws Exception{
-                userContainer.setCompartments(EnumSet.allOf(Compartment.class)); 
+    public void processUserWithSensitive_DataHasPublic() throws Exception {
+        userContainer.setCompartments(EnumSet.allOf(Compartment.class));
         userContainer.setLevels(EnumSet.of(Level.SENSITIVE));
         userContainer.setGroups(EnumSet.of(Group.HR));
         user.setPermissions(userContainer);
@@ -247,17 +247,17 @@ public class ProtectionServiceHandlerTest {
         dataContainer.setLevels(EnumSet.of(Level.PUBLIC));
         dataContainer.setGroups(EnumSet.allOf(Group.class));
         alphaField.setMarkings(dataContainer);
-        fields.put(alphaKey,alphaField);
+        fields.put(alphaKey, alphaField);
         document.setFields(fields);
         document.setOverallMarkings(dataContainer);
         List<ProtectedDocument> documents = new LinkedList<>();
         documents.add(document);
-        assertEquals(0, handler.authorize(user,documents).size());
+        assertEquals(0, handler.authorize(user, documents).size());
     }
 
     @Test
-    public void processUserWithSensitive_DataHasSensitive() throws Exception{
-                userContainer.setCompartments(EnumSet.allOf(Compartment.class)); 
+    public void processUserWithSensitive_DataHasSensitive() throws Exception {
+        userContainer.setCompartments(EnumSet.allOf(Compartment.class));
         userContainer.setLevels(EnumSet.of(Level.SENSITIVE));
         userContainer.setGroups(EnumSet.of(Group.HR));
         user.setPermissions(userContainer);
@@ -265,17 +265,17 @@ public class ProtectionServiceHandlerTest {
         dataContainer.setLevels(EnumSet.of(Level.SENSITIVE));
         dataContainer.setGroups(EnumSet.allOf(Group.class));
         alphaField.setMarkings(dataContainer);
-        fields.put(alphaKey,alphaField);
+        fields.put(alphaKey, alphaField);
         document.setFields(fields);
         document.setOverallMarkings(dataContainer);
         List<ProtectedDocument> documents = new LinkedList<>();
         documents.add(document);
-        assertEquals(1, handler.authorize(user,documents).size());
+        assertEquals(1, handler.authorize(user, documents).size());
     }
 
     @Test
-    public void processUserWithPublic_DataHasNoLevels() throws Exception{
-                userContainer.setCompartments(EnumSet.allOf(Compartment.class)); 
+    public void processUserWithPublic_DataHasNoLevels() throws Exception {
+        userContainer.setCompartments(EnumSet.allOf(Compartment.class));
         userContainer.setLevels(EnumSet.of(Level.PUBLIC));
         userContainer.setGroups(EnumSet.of(Group.HR));
         user.setPermissions(userContainer);
@@ -283,16 +283,17 @@ public class ProtectionServiceHandlerTest {
         dataContainer.setLevels(EnumSet.noneOf(Level.class));
         dataContainer.setGroups(EnumSet.allOf(Group.class));
         alphaField.setMarkings(dataContainer);
-        fields.put(alphaKey,alphaField);
+        fields.put(alphaKey, alphaField);
         document.setFields(fields);
         document.setOverallMarkings(dataContainer);
         List<ProtectedDocument> documents = new LinkedList<>();
         documents.add(document);
-        assertEquals(1, handler.authorize(user,documents).size());
+        assertEquals(1, handler.authorize(user, documents).size());
     }
+
     @Test
-    public void processUserWithPublic_DataHasPublic() throws Exception{
-                userContainer.setCompartments(EnumSet.allOf(Compartment.class)); 
+    public void processUserWithPublic_DataHasPublic() throws Exception {
+        userContainer.setCompartments(EnumSet.allOf(Compartment.class));
         userContainer.setLevels(EnumSet.of(Level.PUBLIC));
         userContainer.setGroups(EnumSet.of(Group.HR));
         user.setPermissions(userContainer);
@@ -300,17 +301,17 @@ public class ProtectionServiceHandlerTest {
         dataContainer.setLevels(EnumSet.of(Level.PUBLIC));
         dataContainer.setGroups(EnumSet.allOf(Group.class));
         alphaField.setMarkings(dataContainer);
-        fields.put(alphaKey,alphaField);
+        fields.put(alphaKey, alphaField);
         document.setFields(fields);
         document.setOverallMarkings(dataContainer);
         List<ProtectedDocument> documents = new LinkedList<>();
         documents.add(document);
-        assertEquals(1, handler.authorize(user,documents).size());
+        assertEquals(1, handler.authorize(user, documents).size());
     }
 
     @Test
-    public void processUserWithPublic_DataHasSensitive() throws Exception{
-                userContainer.setCompartments(EnumSet.allOf(Compartment.class)); 
+    public void processUserWithPublic_DataHasSensitive() throws Exception {
+        userContainer.setCompartments(EnumSet.allOf(Compartment.class));
         userContainer.setLevels(EnumSet.of(Level.PUBLIC));
         userContainer.setGroups(EnumSet.of(Group.HR));
         user.setPermissions(userContainer);
@@ -318,17 +319,17 @@ public class ProtectionServiceHandlerTest {
         dataContainer.setLevels(EnumSet.of(Level.SENSITIVE));
         dataContainer.setGroups(EnumSet.allOf(Group.class));
         alphaField.setMarkings(dataContainer);
-        fields.put(alphaKey,alphaField);
+        fields.put(alphaKey, alphaField);
         document.setFields(fields);
         document.setOverallMarkings(dataContainer);
         List<ProtectedDocument> documents = new LinkedList<>();
         documents.add(document);
-        assertEquals(0, handler.authorize(user,documents).size());
+        assertEquals(0, handler.authorize(user, documents).size());
     }
 
     @Test
-    public void processUserWithNoLevels_DataHasNoLevels() throws Exception{
-                userContainer.setCompartments(EnumSet.allOf(Compartment.class)); 
+    public void processUserWithNoLevels_DataHasNoLevels() throws Exception {
+        userContainer.setCompartments(EnumSet.allOf(Compartment.class));
         userContainer.setLevels(EnumSet.noneOf(Level.class));
         userContainer.setGroups(EnumSet.of(Group.HR));
         user.setPermissions(userContainer);
@@ -336,17 +337,17 @@ public class ProtectionServiceHandlerTest {
         dataContainer.setLevels(EnumSet.noneOf(Level.class));
         dataContainer.setGroups(EnumSet.allOf(Group.class));
         alphaField.setMarkings(dataContainer);
-        fields.put(alphaKey,alphaField);
+        fields.put(alphaKey, alphaField);
         document.setFields(fields);
         document.setOverallMarkings(dataContainer);
         List<ProtectedDocument> documents = new LinkedList<>();
         documents.add(document);
-        assertEquals(1, handler.authorize(user,documents).size());
+        assertEquals(1, handler.authorize(user, documents).size());
     }
 
     @Test
-    public void processUserWithNoLevels_DataHasPublic() throws Exception{
-                userContainer.setCompartments(EnumSet.allOf(Compartment.class)); 
+    public void processUserWithNoLevels_DataHasPublic() throws Exception {
+        userContainer.setCompartments(EnumSet.allOf(Compartment.class));
         userContainer.setLevels(EnumSet.noneOf(Level.class));
         userContainer.setGroups(EnumSet.of(Group.HR));
         user.setPermissions(userContainer);
@@ -354,17 +355,17 @@ public class ProtectionServiceHandlerTest {
         dataContainer.setLevels(EnumSet.of(Level.PUBLIC));
         dataContainer.setGroups(EnumSet.allOf(Group.class));
         alphaField.setMarkings(dataContainer);
-        fields.put(alphaKey,alphaField);
+        fields.put(alphaKey, alphaField);
         document.setFields(fields);
         document.setOverallMarkings(dataContainer);
         List<ProtectedDocument> documents = new LinkedList<>();
         documents.add(document);
-        assertEquals(0, handler.authorize(user,documents).size());
+        assertEquals(0, handler.authorize(user, documents).size());
     }
 
     @Test
-    public void processUserWithNoLevels_DataHasSensitive() throws Exception{
-                userContainer.setCompartments(EnumSet.allOf(Compartment.class)); 
+    public void processUserWithNoLevels_DataHasSensitive() throws Exception {
+        userContainer.setCompartments(EnumSet.allOf(Compartment.class));
         userContainer.setLevels(EnumSet.noneOf(Level.class));
         userContainer.setGroups(EnumSet.of(Group.HR));
         user.setPermissions(userContainer);
@@ -372,218 +373,218 @@ public class ProtectionServiceHandlerTest {
         dataContainer.setLevels(EnumSet.of(Level.SENSITIVE));
         dataContainer.setGroups(EnumSet.allOf(Group.class));
         alphaField.setMarkings(dataContainer);
-        fields.put(alphaKey,alphaField);
+        fields.put(alphaKey, alphaField);
         document.setFields(fields);
         document.setOverallMarkings(dataContainer);
         List<ProtectedDocument> documents = new LinkedList<>();
         documents.add(document);
-        assertEquals(0, handler.authorize(user,documents).size());
+        assertEquals(0, handler.authorize(user, documents).size());
     }
 
 
     @Test
-    public void processUserWithITGroup_DataHasHR() throws Exception{
-                userContainer.setCompartments(EnumSet.allOf(Compartment.class)); 
-        userContainer.setLevels(EnumSet.of(Level.SENSITIVE,Level.PUBLIC));
+    public void processUserWithITGroup_DataHasHR() throws Exception {
+        userContainer.setCompartments(EnumSet.allOf(Compartment.class));
+        userContainer.setLevels(EnumSet.of(Level.SENSITIVE, Level.PUBLIC));
         userContainer.setGroups(EnumSet.of(Group.IT));
         user.setPermissions(userContainer);
         dataContainer.setCompartments(EnumSet.allOf(Compartment.class));
         dataContainer.setLevels(EnumSet.of(Level.SENSITIVE));
         dataContainer.setGroups(EnumSet.of(Group.HR));
         alphaField.setMarkings(dataContainer);
-        fields.put(alphaKey,alphaField);
+        fields.put(alphaKey, alphaField);
         document.setFields(fields);
         document.setOverallMarkings(dataContainer);
         List<ProtectedDocument> documents = new LinkedList<>();
         documents.add(document);
-        assertEquals(0, handler.authorize(user,documents).size());
+        assertEquals(0, handler.authorize(user, documents).size());
     }
 
 
     @Test
-    public void processUserWithITGroup_DataHasNone() throws Exception{
-                userContainer.setCompartments(EnumSet.allOf(Compartment.class)); 
-        userContainer.setLevels(EnumSet.of(Level.SENSITIVE,Level.PUBLIC));
+    public void processUserWithITGroup_DataHasNone() throws Exception {
+        userContainer.setCompartments(EnumSet.allOf(Compartment.class));
+        userContainer.setLevels(EnumSet.of(Level.SENSITIVE, Level.PUBLIC));
         userContainer.setGroups(EnumSet.of(Group.IT));
         user.setPermissions(userContainer);
         dataContainer.setCompartments(EnumSet.allOf(Compartment.class));
         dataContainer.setLevels(EnumSet.of(Level.SENSITIVE));
         dataContainer.setGroups(EnumSet.noneOf(Group.class));
         alphaField.setMarkings(dataContainer);
-        fields.put(alphaKey,alphaField);
+        fields.put(alphaKey, alphaField);
         document.setFields(fields);
         document.setOverallMarkings(dataContainer);
         List<ProtectedDocument> documents = new LinkedList<>();
         documents.add(document);
-        assertEquals(1, handler.authorize(user,documents).size());
+        assertEquals(1, handler.authorize(user, documents).size());
     }
 
     @Test
-    public void processUserWithITGroup_DataHasIT() throws Exception{
-                userContainer.setCompartments(EnumSet.allOf(Compartment.class)); 
-        userContainer.setLevels(EnumSet.of(Level.SENSITIVE,Level.PUBLIC));
+    public void processUserWithITGroup_DataHasIT() throws Exception {
+        userContainer.setCompartments(EnumSet.allOf(Compartment.class));
+        userContainer.setLevels(EnumSet.of(Level.SENSITIVE, Level.PUBLIC));
         userContainer.setGroups(EnumSet.of(Group.IT));
         user.setPermissions(userContainer);
         dataContainer.setCompartments(EnumSet.allOf(Compartment.class));
         dataContainer.setLevels(EnumSet.of(Level.SENSITIVE));
         dataContainer.setGroups(EnumSet.of(Group.IT));
         alphaField.setMarkings(dataContainer);
-        fields.put(alphaKey,alphaField);
+        fields.put(alphaKey, alphaField);
         document.setFields(fields);
         document.setOverallMarkings(dataContainer);
         List<ProtectedDocument> documents = new LinkedList<>();
         documents.add(document);
-        assertEquals(1, handler.authorize(user,documents).size());
+        assertEquals(1, handler.authorize(user, documents).size());
     }
 
     @Test
-    public void processUserWithNoGroups_DataHasHR() throws Exception{
-                userContainer.setCompartments(EnumSet.allOf(Compartment.class)); 
-        userContainer.setLevels(EnumSet.of(Level.SENSITIVE,Level.PUBLIC));
+    public void processUserWithNoGroups_DataHasHR() throws Exception {
+        userContainer.setCompartments(EnumSet.allOf(Compartment.class));
+        userContainer.setLevels(EnumSet.of(Level.SENSITIVE, Level.PUBLIC));
         userContainer.setGroups(EnumSet.noneOf(Group.class));
         user.setPermissions(userContainer);
         dataContainer.setCompartments(EnumSet.allOf(Compartment.class));
         dataContainer.setLevels(EnumSet.of(Level.SENSITIVE));
         dataContainer.setGroups(EnumSet.of(Group.HR));
         alphaField.setMarkings(dataContainer);
-        fields.put(alphaKey,alphaField);
+        fields.put(alphaKey, alphaField);
         document.setFields(fields);
         document.setOverallMarkings(dataContainer);
         List<ProtectedDocument> documents = new LinkedList<>();
         documents.add(document);
-        assertEquals(0, handler.authorize(user,documents).size());
+        assertEquals(0, handler.authorize(user, documents).size());
     }
 
     @Test
-    public void processUserWithNoGroups_DataHasNone() throws Exception{
-                userContainer.setCompartments(EnumSet.allOf(Compartment.class)); 
-        userContainer.setLevels(EnumSet.of(Level.SENSITIVE,Level.PUBLIC));
+    public void processUserWithNoGroups_DataHasNone() throws Exception {
+        userContainer.setCompartments(EnumSet.allOf(Compartment.class));
+        userContainer.setLevels(EnumSet.of(Level.SENSITIVE, Level.PUBLIC));
         userContainer.setGroups(EnumSet.noneOf(Group.class));
         user.setPermissions(userContainer);
         dataContainer.setCompartments(EnumSet.allOf(Compartment.class));
         dataContainer.setLevels(EnumSet.of(Level.SENSITIVE));
         dataContainer.setGroups(EnumSet.noneOf(Group.class));
         alphaField.setMarkings(dataContainer);
-        fields.put(alphaKey,alphaField);
+        fields.put(alphaKey, alphaField);
         document.setFields(fields);
         document.setOverallMarkings(dataContainer);
         List<ProtectedDocument> documents = new LinkedList<>();
         documents.add(document);
-        assertEquals(1, handler.authorize(user,documents).size());
+        assertEquals(1, handler.authorize(user, documents).size());
     }
 
     @Test
-    public void processUserWithNoGroups_DataHasIT() throws Exception{
-                userContainer.setCompartments(EnumSet.allOf(Compartment.class)); 
-        userContainer.setLevels(EnumSet.of(Level.SENSITIVE,Level.PUBLIC));
+    public void processUserWithNoGroups_DataHasIT() throws Exception {
+        userContainer.setCompartments(EnumSet.allOf(Compartment.class));
+        userContainer.setLevels(EnumSet.of(Level.SENSITIVE, Level.PUBLIC));
         userContainer.setGroups(EnumSet.noneOf(Group.class));
         user.setPermissions(userContainer);
         dataContainer.setCompartments(EnumSet.allOf(Compartment.class));
         dataContainer.setLevels(EnumSet.of(Level.SENSITIVE));
         dataContainer.setGroups(EnumSet.of(Group.IT));
         alphaField.setMarkings(dataContainer);
-        fields.put(alphaKey,alphaField);
+        fields.put(alphaKey, alphaField);
         document.setFields(fields);
         document.setOverallMarkings(dataContainer);
         List<ProtectedDocument> documents = new LinkedList<>();
         documents.add(document);
-        assertEquals(0, handler.authorize(user,documents).size());
+        assertEquals(0, handler.authorize(user, documents).size());
     }
 
 
     @Test
-    public void processUserWithHRGroup_DataHasNone() throws Exception{
-                userContainer.setCompartments(EnumSet.allOf(Compartment.class)); 
-        userContainer.setLevels(EnumSet.of(Level.SENSITIVE,Level.PUBLIC));
+    public void processUserWithHRGroup_DataHasNone() throws Exception {
+        userContainer.setCompartments(EnumSet.allOf(Compartment.class));
+        userContainer.setLevels(EnumSet.of(Level.SENSITIVE, Level.PUBLIC));
         userContainer.setGroups(EnumSet.of(Group.HR));
         user.setPermissions(userContainer);
         dataContainer.setCompartments(EnumSet.allOf(Compartment.class));
         dataContainer.setLevels(EnumSet.of(Level.SENSITIVE));
         dataContainer.setGroups(EnumSet.noneOf(Group.class));
         alphaField.setMarkings(dataContainer);
-        fields.put(alphaKey,alphaField);
+        fields.put(alphaKey, alphaField);
         document.setFields(fields);
         document.setOverallMarkings(dataContainer);
         List<ProtectedDocument> documents = new LinkedList<>();
         documents.add(document);
-        assertEquals(1, handler.authorize(user,documents).size());
+        assertEquals(1, handler.authorize(user, documents).size());
     }
 
     @Test
-    public void processUserWithHRGroup_DataHasIT() throws Exception{
-                userContainer.setCompartments(EnumSet.allOf(Compartment.class)); 
-        userContainer.setLevels(EnumSet.of(Level.SENSITIVE,Level.PUBLIC));
+    public void processUserWithHRGroup_DataHasIT() throws Exception {
+        userContainer.setCompartments(EnumSet.allOf(Compartment.class));
+        userContainer.setLevels(EnumSet.of(Level.SENSITIVE, Level.PUBLIC));
         userContainer.setGroups(EnumSet.of(Group.HR));
         user.setPermissions(userContainer);
         dataContainer.setCompartments(EnumSet.allOf(Compartment.class));
         dataContainer.setLevels(EnumSet.of(Level.SENSITIVE));
         dataContainer.setGroups(EnumSet.of(Group.IT));
         alphaField.setMarkings(dataContainer);
-        fields.put(alphaKey,alphaField);
+        fields.put(alphaKey, alphaField);
         document.setFields(fields);
         document.setOverallMarkings(dataContainer);
         List<ProtectedDocument> documents = new LinkedList<>();
         documents.add(document);
-        assertEquals(0, handler.authorize(user,documents).size());
+        assertEquals(0, handler.authorize(user, documents).size());
     }
 
     @Test
-    public void processUserWithHRGroup_DataHasHR() throws Exception{
-                userContainer.setCompartments(EnumSet.allOf(Compartment.class)); 
-        userContainer.setLevels(EnumSet.of(Level.SENSITIVE,Level.PUBLIC));
+    public void processUserWithHRGroup_DataHasHR() throws Exception {
+        userContainer.setCompartments(EnumSet.allOf(Compartment.class));
+        userContainer.setLevels(EnumSet.of(Level.SENSITIVE, Level.PUBLIC));
         userContainer.setGroups(EnumSet.of(Group.HR));
         user.setPermissions(userContainer);
         dataContainer.setCompartments(EnumSet.allOf(Compartment.class));
         dataContainer.setLevels(EnumSet.of(Level.SENSITIVE));
         dataContainer.setGroups(EnumSet.of(Group.HR));
         alphaField.setMarkings(dataContainer);
-        fields.put(alphaKey,alphaField);
+        fields.put(alphaKey, alphaField);
         document.setFields(fields);
         document.setOverallMarkings(dataContainer);
         List<ProtectedDocument> documents = new LinkedList<>();
         documents.add(document);
-        assertEquals(1, handler.authorize(user,documents).size());
+        assertEquals(1, handler.authorize(user, documents).size());
     }
 
     @Test
-    public void processUserWithHRGroup_DataHasHRAndIT() throws Exception{
-                userContainer.setCompartments(EnumSet.allOf(Compartment.class)); 
-        userContainer.setLevels(EnumSet.of(Level.SENSITIVE,Level.PUBLIC));
+    public void processUserWithHRGroup_DataHasHRAndIT() throws Exception {
+        userContainer.setCompartments(EnumSet.allOf(Compartment.class));
+        userContainer.setLevels(EnumSet.of(Level.SENSITIVE, Level.PUBLIC));
         userContainer.setGroups(EnumSet.of(Group.HR));
         user.setPermissions(userContainer);
         dataContainer.setCompartments(EnumSet.allOf(Compartment.class));
         dataContainer.setLevels(EnumSet.of(Level.SENSITIVE));
-        dataContainer.setGroups(EnumSet.of(Group.HR,Group.IT));
+        dataContainer.setGroups(EnumSet.of(Group.HR, Group.IT));
         alphaField.setMarkings(dataContainer);
-        fields.put(alphaKey,alphaField);
+        fields.put(alphaKey, alphaField);
         document.setFields(fields);
         document.setOverallMarkings(dataContainer);
         List<ProtectedDocument> documents = new LinkedList<>();
         documents.add(document);
-        assertEquals(1, handler.authorize(user,documents).size());
+        assertEquals(1, handler.authorize(user, documents).size());
     }
 
     @Test
-    public void processUserWithITGroup_DataHasHRAndIT() throws Exception{
-                userContainer.setCompartments(EnumSet.allOf(Compartment.class)); 
-        userContainer.setLevels(EnumSet.of(Level.SENSITIVE,Level.PUBLIC));
+    public void processUserWithITGroup_DataHasHRAndIT() throws Exception {
+        userContainer.setCompartments(EnumSet.allOf(Compartment.class));
+        userContainer.setLevels(EnumSet.of(Level.SENSITIVE, Level.PUBLIC));
         userContainer.setGroups(EnumSet.of(Group.IT));
         user.setPermissions(userContainer);
         dataContainer.setCompartments(EnumSet.allOf(Compartment.class));
         dataContainer.setLevels(EnumSet.of(Level.SENSITIVE));
-        dataContainer.setGroups(EnumSet.of(Group.HR,Group.IT));
+        dataContainer.setGroups(EnumSet.of(Group.HR, Group.IT));
         alphaField.setMarkings(dataContainer);
-        fields.put(alphaKey,alphaField);
+        fields.put(alphaKey, alphaField);
         document.setFields(fields);
         document.setOverallMarkings(dataContainer);
         List<ProtectedDocument> documents = new LinkedList<>();
         documents.add(document);
-        assertEquals(1, handler.authorize(user,documents).size());
+        assertEquals(1, handler.authorize(user, documents).size());
     }
 
 
     @Test
-    public void processUserWithIT_DataHasNoLevels_MultipleFieldsHaveDifferingValues() throws Exception{
+    public void processUserWithIT_DataHasNoLevels_MultipleFieldsHaveDifferingValues() throws Exception {
         userContainer.setCompartments(EnumSet.allOf(Compartment.class));
         userContainer.setLevels(EnumSet.of(Level.PUBLIC));
         userContainer.setGroups(EnumSet.of(Group.IT));
@@ -610,15 +611,15 @@ public class ProtectionServiceHandlerTest {
         document.setOverallMarkings(dataContainer);
         List<ProtectedDocument> documents = new LinkedList<>();
         documents.add(document);
-        assertEquals(1, handler.authorize(user,documents).size());
-        assertEquals("some value",documents.get(0).getFields().get(alphaKey).getValue());
+        assertEquals(1, handler.authorize(user, documents).size());
+        assertEquals("some value", documents.get(0).getFields().get(alphaKey).getValue());
         assertNull(documents.get(0).getFields().get(betaKey).getValue());
 
     }
 
     @Test
-    public void processUserWithIT_DataHasNoLevels_FieldHasITAndHR() throws Exception{
-                userContainer.setCompartments(EnumSet.allOf(Compartment.class)); 
+    public void processUserWithIT_DataHasNoLevels_FieldHasITAndHR() throws Exception {
+        userContainer.setCompartments(EnumSet.allOf(Compartment.class));
         userContainer.setLevels(EnumSet.of(Level.PUBLIC));
         userContainer.setGroups(EnumSet.of(Group.HR));
         user.setPermissions(userContainer);
@@ -628,20 +629,20 @@ public class ProtectionServiceHandlerTest {
         SecurityContainer fieldContainer = new SecurityContainer();
         fieldContainer.setCompartments(EnumSet.allOf(Compartment.class));
         fieldContainer.setLevels(EnumSet.noneOf(Level.class));
-        fieldContainer.setGroups(EnumSet.of(Group.IT,Group.HR));
+        fieldContainer.setGroups(EnumSet.of(Group.IT, Group.HR));
         alphaField.setMarkings(fieldContainer);
         fields.put(alphaKey, alphaField);
         document.setFields(fields);
         document.setOverallMarkings(dataContainer);
         List<ProtectedDocument> documents = new LinkedList<>();
         documents.add(document);
-        assertEquals(1, handler.authorize(user,documents).size());
-        assertEquals("some value",documents.get(0).getFields().get(alphaKey).getValue());
+        assertEquals(1, handler.authorize(user, documents).size());
+        assertEquals("some value", documents.get(0).getFields().get(alphaKey).getValue());
     }
 
     @Test
-    public void processUserWithIT_DataHasNoLevels_FieldHasHR() throws Exception{
-                userContainer.setCompartments(EnumSet.allOf(Compartment.class)); 
+    public void processUserWithIT_DataHasNoLevels_FieldHasHR() throws Exception {
+        userContainer.setCompartments(EnumSet.allOf(Compartment.class));
         userContainer.setLevels(EnumSet.of(Level.PUBLIC));
         userContainer.setGroups(EnumSet.of(Group.IT));
         user.setPermissions(userContainer);
@@ -658,13 +659,13 @@ public class ProtectionServiceHandlerTest {
         document.setOverallMarkings(dataContainer);
         List<ProtectedDocument> documents = new LinkedList<>();
         documents.add(document);
-        assertEquals(1, handler.authorize(user,documents).size());
+        assertEquals(1, handler.authorize(user, documents).size());
         assertNull(documents.get(0).getFields().get(alphaKey).getValue());
     }
 
     @Test
-    public void processUserWithIT_DataHasNoLevels_FieldHasIT() throws Exception{
-                userContainer.setCompartments(EnumSet.allOf(Compartment.class)); 
+    public void processUserWithIT_DataHasNoLevels_FieldHasIT() throws Exception {
+        userContainer.setCompartments(EnumSet.allOf(Compartment.class));
         userContainer.setLevels(EnumSet.of(Level.PUBLIC));
         userContainer.setGroups(EnumSet.of(Group.IT));
         user.setPermissions(userContainer);
@@ -681,14 +682,14 @@ public class ProtectionServiceHandlerTest {
         document.setOverallMarkings(dataContainer);
         List<ProtectedDocument> documents = new LinkedList<>();
         documents.add(document);
-        assertEquals(1, handler.authorize(user,documents).size());
-        assertEquals("some value",documents.get(0).getFields().get(alphaKey).getValue());
+        assertEquals(1, handler.authorize(user, documents).size());
+        assertEquals("some value", documents.get(0).getFields().get(alphaKey).getValue());
     }
 
 
     @Test
-    public void processUserWithIT_DataHasNoGroups_FieldHasNone() throws Exception{
-                userContainer.setCompartments(EnumSet.allOf(Compartment.class)); 
+    public void processUserWithIT_DataHasNoGroups_FieldHasNone() throws Exception {
+        userContainer.setCompartments(EnumSet.allOf(Compartment.class));
         userContainer.setLevels(EnumSet.of(Level.PUBLIC));
         userContainer.setGroups(EnumSet.of(Group.IT));
         user.setPermissions(userContainer);
@@ -705,7 +706,153 @@ public class ProtectionServiceHandlerTest {
         document.setOverallMarkings(dataContainer);
         List<ProtectedDocument> documents = new LinkedList<>();
         documents.add(document);
-        assertEquals(1, handler.authorize(user,documents).size());
-        assertEquals("some value",documents.get(0).getFields().get(alphaKey).getValue());
+        assertEquals(1, handler.authorize(user, documents).size());
+        assertEquals("some value", documents.get(0).getFields().get(alphaKey).getValue());
     }
+
+    @Test
+    public void processUserWithAlphaCompartment_DataHasNone() throws Exception {
+        userContainer.setCompartments(EnumSet.of(Compartment.ALPHA));
+        userContainer.setLevels(EnumSet.of(Level.SENSITIVE, Level.PUBLIC));
+        userContainer.setGroups(EnumSet.of(Group.HR));
+        user.setPermissions(userContainer);
+        dataContainer.setCompartments(EnumSet.noneOf(Compartment.class));
+        dataContainer.setLevels(EnumSet.of(Level.SENSITIVE));
+        dataContainer.setGroups(EnumSet.noneOf(Group.class));
+        alphaField.setMarkings(dataContainer);
+        fields.put(alphaKey, alphaField);
+        document.setFields(fields);
+        document.setOverallMarkings(dataContainer);
+        List<ProtectedDocument> documents = new LinkedList<>();
+        documents.add(document);
+        assertEquals(1, handler.authorize(user, documents).size());
+    }
+
+    @Test
+    public void processUserWithHAlphaCompartment_DataHasAlpha() throws Exception {
+        userContainer.setCompartments(EnumSet.of(Compartment.ALPHA));
+        userContainer.setLevels(EnumSet.of(Level.SENSITIVE, Level.PUBLIC));
+        userContainer.setGroups(EnumSet.of(Group.HR));
+        user.setPermissions(userContainer);
+        dataContainer.setCompartments(EnumSet.of(Compartment.ALPHA));
+        dataContainer.setLevels(EnumSet.of(Level.SENSITIVE));
+        dataContainer.setGroups(EnumSet.noneOf(Group.class));
+        alphaField.setMarkings(dataContainer);
+        fields.put(alphaKey, alphaField);
+        document.setFields(fields);
+        document.setOverallMarkings(dataContainer);
+        List<ProtectedDocument> documents = new LinkedList<>();
+        documents.add(document);
+        assertEquals(1, handler.authorize(user, documents).size());
+    }
+
+    @Test
+    public void processUserWithAlphaCompartment_DataHasBravo() throws Exception {
+        userContainer.setCompartments(EnumSet.of(Compartment.ALPHA));
+        userContainer.setLevels(EnumSet.of(Level.SENSITIVE, Level.PUBLIC));
+        userContainer.setGroups(EnumSet.of(Group.HR));
+        user.setPermissions(userContainer);
+        dataContainer.setCompartments(EnumSet.of(Compartment.BRAVO));
+        dataContainer.setLevels(EnumSet.of(Level.SENSITIVE));
+        dataContainer.setGroups(EnumSet.of(Group.HR));
+        alphaField.setMarkings(dataContainer);
+        fields.put(alphaKey, alphaField);
+        document.setFields(fields);
+        document.setOverallMarkings(dataContainer);
+        List<ProtectedDocument> documents = new LinkedList<>();
+        documents.add(document);
+        assertEquals(0, handler.authorize(user, documents).size());
+    }
+
+    @Test
+    public void processUserWithAlphaCompartment_DataHasAlphaAndBravo() throws Exception {
+        userContainer.setCompartments(EnumSet.of(Compartment.ALPHA));
+        userContainer.setLevels(EnumSet.of(Level.SENSITIVE, Level.PUBLIC));
+        userContainer.setGroups(EnumSet.of(Group.HR));
+        user.setPermissions(userContainer);
+        dataContainer.setCompartments(EnumSet.of(Compartment.ALPHA,Compartment.BRAVO));
+        dataContainer.setLevels(EnumSet.noneOf(Level.class));
+        dataContainer.setGroups(EnumSet.noneOf(Group.class));
+        alphaField.setMarkings(dataContainer);
+        fields.put(alphaKey, alphaField);
+        document.setFields(fields);
+        document.setOverallMarkings(dataContainer);
+        List<ProtectedDocument> documents = new LinkedList<>();
+        documents.add(document);
+        assertEquals(0, handler.authorize(user, documents).size());
+    }
+
+    @Test
+    public void processUserWithBravoCompartment_DataHasNone() throws Exception {
+        userContainer.setCompartments(EnumSet.of(Compartment.BRAVO));
+        userContainer.setLevels(EnumSet.of(Level.SENSITIVE, Level.PUBLIC));
+        userContainer.setGroups(EnumSet.of(Group.HR));
+        user.setPermissions(userContainer);
+        dataContainer.setCompartments(EnumSet.noneOf(Compartment.class));
+        dataContainer.setLevels(EnumSet.of(Level.SENSITIVE));
+        dataContainer.setGroups(EnumSet.noneOf(Group.class));
+        alphaField.setMarkings(dataContainer);
+        fields.put(alphaKey, alphaField);
+        document.setFields(fields);
+        document.setOverallMarkings(dataContainer);
+        List<ProtectedDocument> documents = new LinkedList<>();
+        documents.add(document);
+        assertEquals(1, handler.authorize(user, documents).size());
+    }
+
+    @Test
+    public void processUserWithBravoCompartment_DataHasAlpha() throws Exception {
+        userContainer.setCompartments(EnumSet.of(Compartment.BRAVO));
+        userContainer.setLevels(EnumSet.of(Level.SENSITIVE, Level.PUBLIC));
+        userContainer.setGroups(EnumSet.of(Group.HR));
+        user.setPermissions(userContainer);
+        dataContainer.setCompartments(EnumSet.of(Compartment.ALPHA));
+        dataContainer.setLevels(EnumSet.of(Level.SENSITIVE));
+        dataContainer.setGroups(EnumSet.noneOf(Group.class));
+        alphaField.setMarkings(dataContainer);
+        fields.put(alphaKey, alphaField);
+        document.setFields(fields);
+        document.setOverallMarkings(dataContainer);
+        List<ProtectedDocument> documents = new LinkedList<>();
+        documents.add(document);
+        assertEquals(0, handler.authorize(user, documents).size());
+    }
+
+    @Test
+    public void processUserWithBravoCompartment_DataHasBravo() throws Exception {
+        userContainer.setCompartments(EnumSet.of(Compartment.BRAVO));
+        userContainer.setLevels(EnumSet.of(Level.SENSITIVE, Level.PUBLIC));
+        userContainer.setGroups(EnumSet.of(Group.HR));
+        user.setPermissions(userContainer);
+        dataContainer.setCompartments(EnumSet.of(Compartment.BRAVO));
+        dataContainer.setLevels(EnumSet.of(Level.SENSITIVE));
+        dataContainer.setGroups(EnumSet.of(Group.HR));
+        alphaField.setMarkings(dataContainer);
+        fields.put(alphaKey, alphaField);
+        document.setFields(fields);
+        document.setOverallMarkings(dataContainer);
+        List<ProtectedDocument> documents = new LinkedList<>();
+        documents.add(document);
+        assertEquals(1, handler.authorize(user, documents).size());
+    }
+
+    @Test
+    public void processUserWithBravoCompartment_DataHasAlphaAndBravo() throws Exception {
+        userContainer.setCompartments(EnumSet.of(Compartment.BRAVO));
+        userContainer.setLevels(EnumSet.of(Level.SENSITIVE, Level.PUBLIC));
+        userContainer.setGroups(EnumSet.of(Group.HR));
+        user.setPermissions(userContainer);
+        dataContainer.setCompartments(EnumSet.of(Compartment.ALPHA,Compartment.BRAVO));
+        dataContainer.setLevels(EnumSet.noneOf(Level.class));
+        dataContainer.setGroups(EnumSet.noneOf(Group.class));
+        alphaField.setMarkings(dataContainer);
+        fields.put(alphaKey, alphaField);
+        document.setFields(fields);
+        document.setOverallMarkings(dataContainer);
+        List<ProtectedDocument> documents = new LinkedList<>();
+        documents.add(document);
+        assertEquals(0, handler.authorize(user, documents).size());
+    }
+
+
 }
