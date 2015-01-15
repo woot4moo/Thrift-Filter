@@ -2,7 +2,7 @@
 //Types associated with Oracle OLS
 
 namespace java security
-namespace py com_woot4moo_security
+namespace py security
 
 
 enum Level{
